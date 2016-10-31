@@ -22,7 +22,6 @@ public class StreamClientHandler extends ChannelInboundHandlerAdapter{
         for (int i = 0;i < 100;i++){
             ByteBuf buffer = Unpooled.buffer(message.length);
             buffer.writeBytes(message);
-            Thread.sleep(100);
             ctx.writeAndFlush(buffer);
         }
     }
@@ -32,7 +31,6 @@ public class StreamClientHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf buf = (ByteBuf) msg;
         int length = buf.readableBytes();
-        System.out.println(length);
         byte[] req = new byte[length];
         buf.readBytes(req);
         String body = new String(req, "UTF-8");

@@ -14,6 +14,8 @@
         <module>netty-learning-stream-based-transport</module>
         <module>netty-learning-speaking-pojo</module>
         <module>netty-learning-websocket</module>
+        <module>netty-learning-codec</module>
+        <module>netty-learning-buffer</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -40,6 +42,8 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.13</version>
         </dependency>
+
+
 
 
 
