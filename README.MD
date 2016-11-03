@@ -1,4 +1,5 @@
+# Netty Learning
+- Netty学习笔记
 
 
 
-MultithreadEventExecutorGroup底层维护着多个EventExecutor，创建的个数依赖于线程的数量。

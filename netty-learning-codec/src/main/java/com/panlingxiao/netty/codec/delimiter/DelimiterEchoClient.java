@@ -11,6 +11,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 import java.net.InetSocketAddress;
 
@@ -34,6 +35,7 @@ public class DelimiterEchoClient {
                     ByteBuf buf = Unpooled.copiedBuffer("$_".getBytes());
                     pipeline.addLast(new DelimiterBasedFrameDecoder(1024, buf));
                     pipeline.addLast(new StringDecoder());
+                    pipeline.addLast(new StringEncoder());
                     pipeline.addLast(new DelimiterEchoClientHandler());
                 }
             });

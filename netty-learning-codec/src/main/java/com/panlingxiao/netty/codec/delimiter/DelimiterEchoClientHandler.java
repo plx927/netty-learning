@@ -26,18 +26,18 @@ public class DelimiterEchoClientHandler extends SimpleChannelInboundHandler<Stri
         LOGGER.info("客户端接受到数据:{}",msg);
     }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("客户端接受数据完毕，准备开始关闭连接");
-        ChannelFuture future = ctx.close();
-        future.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) throws Exception {
-                if(future.isSuccess()){
-                    LOGGER.info("客户端关闭连接成功");
-                }
-            }
-        });
-        LOGGER.info("开始关闭连接");
-    }
+//    @Override
+//    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+//        LOGGER.info("客户端接受数据完毕，准备开始关闭连接");
+//        ChannelFuture future = ctx.close();
+//        future.addListener(new ChannelFutureListener() {
+//            @Override
+//            public void operationComplete(ChannelFuture future) throws Exception {
+//                if(future.isSuccess()){
+//                    LOGGER.info("客户端关闭连接成功");
+//                }
+//            }
+//        });
+//        LOGGER.info("开始关闭连接");
+//    }
 }

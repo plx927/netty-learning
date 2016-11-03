@@ -13,13 +13,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 import java.net.Socket;
 
 /**
  * @Author: panlingxiao
  * @Date: 2016/10/31 0031
- * @Description:
+ * @Description: 实现一个简单的EchoServer,通过"$_"作为行分隔符来对内容进行处理
  */
 public class DelimiterEchoServer {
 
@@ -31,6 +33,7 @@ public class DelimiterEchoServer {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.channel(NioServerSocketChannel.class)
                     .group(bossGroup, workerGroup)
+                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
