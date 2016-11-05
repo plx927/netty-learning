@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 /**
  * Created by panlingxiao on 2016/10/29.
@@ -27,6 +29,7 @@ public class DiscardServer {
             ServerBootstrap b = new ServerBootstrap(); // (2)
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class) // (3)
+                    .handler(new LoggingHandler(LogLevel.DEBUG))
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
@@ -34,6 +37,7 @@ public class DiscardServer {
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
+                    .childOption(ChannelOption.TCP_NODELAY,true)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
             ChannelFuture f = b.bind(port).sync();

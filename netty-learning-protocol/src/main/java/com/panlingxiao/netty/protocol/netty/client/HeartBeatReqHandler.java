@@ -28,11 +28,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-
 /**
- * @author Lilinfeng
- * @version 1.0
- * @date 2014年3月15日
+ * 客户端心跳检测
  */
 public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
 
@@ -45,19 +42,14 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
         // 握手成功，主动发送心跳消息
-        if (message.getHeader() != null
-                && message.getHeader().getType() == MessageType.LOGIN_RESP
-                .value()) {
-            heartBeat = ctx.executor().scheduleAtFixedRate(
-                    new HeartBeatTask(ctx), 0, 5000,
-                    TimeUnit.MILLISECONDS);
-        } else if (message.getHeader() != null
-                && message.getHeader().getType() == MessageType.HEARTBEAT_RESP
-                .value()) {
-            LOG.info("Client receive server heart beat message : ---> "
-                            + message);
-        } else
+        if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_RESP.value()) {
+            //每隔5秒执行一次任务
+            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
+        } else if (message.getHeader() != null && message.getHeader().getType() == MessageType.HEARTBEAT_RESP.value()) {
+            LOG.info("Client receive server heart beat message : ---> " + message);
+        } else {
             ctx.fireChannelRead(msg);
+        }
     }
 
     private class HeartBeatTask implements Runnable {
@@ -70,8 +62,7 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
         @Override
         public void run() {
             NettyMessage heatBeat = buildHeatBeat();
-            LOG.info("Client send heart beat messsage to server : ---> "
-                            + heatBeat);
+            LOG.info("Client send heart beat messsage to server : ---> " + heatBeat);
             ctx.writeAndFlush(heatBeat);
         }
 

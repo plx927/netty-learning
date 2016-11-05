@@ -13,22 +13,4 @@
     <artifactId>netty-learning-protocol</artifactId>
 
 
-    <dependencies>
-
-        <dependency>
-            <groupId>org.jboss.marshalling</groupId>
-            <artifactId>jboss-marshalling</artifactId>
-            <version>1.4.10.Final</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.jboss.marshalling</groupId>
-            <artifactId>jboss-marshalling-serial</artifactId>
-            <version>1.4.10.Final</version>
-        </dependency>
-
-
-    </dependencies>
-
 </project>

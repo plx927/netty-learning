@@ -41,31 +41,41 @@ public final class NettyMessageEncoder extends
                           ByteBuf sendBuf) throws Exception {
         if (msg == null || msg.getHeader() == null)
             throw new Exception("The encode message is null");
+
+        //将消息头先写入到ByteBuf中
         sendBuf.writeInt((msg.getHeader().getCrcCode()));
         sendBuf.writeInt((msg.getHeader().getLength()));
         sendBuf.writeLong((msg.getHeader().getSessionID()));
         sendBuf.writeByte((msg.getHeader().getType()));
         sendBuf.writeByte((msg.getHeader().getPriority()));
+
+        //写入消息头的附件的键值对的个数
         sendBuf.writeInt((msg.getHeader().getAttachment().size()));
         String key = null;
         byte[] keyArray = null;
         Object value = null;
-        for (Map.Entry<String, Object> param : msg.getHeader().getAttachment()
-                .entrySet()) {
+        for (Map.Entry<String, Object> param : msg.getHeader().getAttachment().entrySet()) {
             key = param.getKey();
             keyArray = key.getBytes("UTF-8");
+            //写入每个key的长度
             sendBuf.writeInt(keyArray.length);
+            //写入每个key的内容
             sendBuf.writeBytes(keyArray);
             value = param.getValue();
+            //对value进行编解码,写入value的长度和value的内容
             marshallingEncoder.encode(value, sendBuf);
         }
         key = null;
         keyArray = null;
         value = null;
         if (msg.getBody() != null) {
+            //对body进行编解码，写入每个body的长度以及内容
             marshallingEncoder.encode(msg.getBody(), sendBuf);
-        } else
+        } else {
+            //如果Body没有内容,则将Body的长度设置为0
             sendBuf.writeInt(0);
+        }
+        //设置消息的长度,消息长度字段在ByteBuf第4个位置开始
         sendBuf.setInt(4, sendBuf.readableBytes() - 8);
     }
 }

@@ -26,9 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Lilinfeng
- * @version 1.0
- * @date 2014年3月15日
+ * 协议解码器，将接受到的字节进行解码
  */
 public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 
@@ -43,19 +41,21 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in)
             throws Exception {
+        //直接让LengthFieldBasedFrameDecoder来处理剩余的字节内容
         ByteBuf frame = (ByteBuf) super.decode(ctx, in);
         if (frame == null) {
             return null;
         }
 
         NettyMessage message = new NettyMessage();
+        //解析头部数据
         Header header = new Header();
         header.setCrcCode(frame.readInt());
         header.setLength(frame.readInt());
         header.setSessionID(frame.readLong());
         header.setType(frame.readByte());
         header.setPriority(frame.readByte());
-
+        //解析附件内容
         int size = frame.readInt();
         if (size > 0) {
             Map<String, Object> attch = new HashMap<String, Object>(size);
@@ -73,6 +73,7 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
             key = null;
             header.setAttachment(attch);
         }
+        //判断是否有消息体,通过比较读写指针的位置的差值是否为4
         if (frame.readableBytes() > 4) {
             message.setBody(marshallingDecoder.decode(frame));
         }

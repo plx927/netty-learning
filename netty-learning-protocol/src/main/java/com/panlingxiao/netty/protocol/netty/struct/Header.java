@@ -13,8 +13,8 @@ public final class Header {
     /**
      * Netty消息校验码
      * OXABEF：固定值,表明该消息为Netty消息,2个字节
-     * 主版本号：
-     * 此版本号：
+     * 主版本号：1个字节
+     * 此版本号：1个字节
      */
     private int crcCode = 0xabef0101;
 

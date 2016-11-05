@@ -1,14 +1,19 @@
 package com.panlingxiao.netty.protocol.netty.struct;
 
+
 /**
- * @author lilinfeng
- * @date 2014年3月14日
- * @version 1.0
+ * 协议使用的消息对象
  */
 public final class NettyMessage {
 
+    /**
+     * 消息头
+     */
     private Header header;
 
+    /**
+     * 消息体
+     */
     private Object body;
 
     /**

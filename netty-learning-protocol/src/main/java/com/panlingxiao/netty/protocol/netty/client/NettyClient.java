@@ -36,7 +36,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-
 public class NettyClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(NettyClient.class);
@@ -58,16 +57,12 @@ public class NettyClient {
                         @Override
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
-                            ch.pipeline().addLast(
-                                    new NettyMessageDecoder(1024 * 1024, 4, 4));
-                            ch.pipeline().addLast("MessageEncoder",
-                                    new NettyMessageEncoder());
-                            ch.pipeline().addLast("readTimeoutHandler",
-                                    new ReadTimeoutHandler(50));
-                            ch.pipeline().addLast("LoginAuthHandler",
-                                    new LoginAuthReqHandler());
-                            ch.pipeline().addLast("HeartBeatHandler",
-                                    new HeartBeatReqHandler());
+                            ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
+                            ch.pipeline().addLast("MessageEncoder", new NettyMessageEncoder());
+                            ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
+                            ch.pipeline().addLast("LoginAuthHandler", new LoginAuthReqHandler());
+                            //检测服务器端心跳，判断服务器是否存在线程挂起以及宕机
+                            ch.pipeline().addLast("HeartBeatHandler", new HeartBeatReqHandler());
                         }
                     });
             // 发起异步连接操作

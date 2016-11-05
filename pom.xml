@@ -17,6 +17,9 @@
         <module>netty-learning-codec</module>
         <module>netty-learning-buffer</module>
         <module>netty-learning-protocol</module>
+        <module>netty-learning-nio-server</module>
+        <module>netty-learning-channelhandler</module>
+        <module>netty-learning-threadmodel</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -42,6 +45,19 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-serial</artifactId>
+            <version>1.4.10.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
 
 

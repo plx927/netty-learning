@@ -28,8 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- *
+ *  服务器端对客户端认证的处理
  */
 public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
 
@@ -43,11 +42,9 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
-
         // 如果是握手请求消息，处理，其它消息透传
-        if (message.getHeader() != null
-                && message.getHeader().getType() == MessageType.LOGIN_REQ
-                .value()) {
+        if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_REQ.value()) {
+            //获取远程连接的IP信息
             String nodeIndex = ctx.channel().remoteAddress().toString();
             NettyMessage loginResp = null;
             // 重复登陆，拒绝
@@ -58,6 +55,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
                         .remoteAddress();
                 String ip = address.getAddress().getHostAddress();
                 boolean isOK = false;
+                //白名单检测
                 for (String WIP : whitekList) {
                     if (WIP.equals(ip)) {
                         isOK = true;
@@ -66,11 +64,11 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
                 }
                 loginResp = isOK ? buildResponse((byte) 0)
                         : buildResponse((byte) -1);
-                if (isOK)
+                if (isOK) {
                     nodeCheck.put(nodeIndex, true);
+                }
             }
-            LOG.info("The login response is : " + loginResp
-                    + " body [" + loginResp.getBody() + "]");
+            LOG.info("The login response is : " + loginResp + " body [" + loginResp.getBody() + "]");
             ctx.writeAndFlush(loginResp);
         } else {
             ctx.fireChannelRead(msg);

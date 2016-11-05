@@ -23,9 +23,7 @@ import java.io.IOException;
 import org.jboss.marshalling.Marshaller;
 
 /**
- * @author Lilinfeng
- * @version 1.0
- * @date 2014年3月14日
+ * JBoss MarshallingEncoder的编码器
  */
 @Sharable
 public class MarshallingEncoder {
@@ -45,6 +43,10 @@ public class MarshallingEncoder {
             marshaller.start(output);
             marshaller.writeObject(msg);
             marshaller.finish();
+            /*
+             * 设置第x+4个位置的字节内容，这种设置不会影响ByteBuf的读写指针
+             * 这里用于记录value的长度
+             */
             out.setInt(lengthPos, out.writerIndex() - lengthPos - 4);
         } finally {
             marshaller.close();

@@ -50,8 +50,9 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
                 LOG.info("Login is ok : " + message);
                 ctx.fireChannelRead(msg);
             }
-        } else
+        } else {
             ctx.fireChannelRead(msg);
+        }
     }
 
     /**
