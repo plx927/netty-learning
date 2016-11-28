@@ -20,7 +20,6 @@
         <module>netty-learning-nio-server</module>
         <module>netty-learning-channelhandler</module>
         <module>netty-learning-threadmodel</module>
-        <module>netty-learning-common</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -61,11 +60,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.6.5</version>
-        </dependency>
 
 
 
