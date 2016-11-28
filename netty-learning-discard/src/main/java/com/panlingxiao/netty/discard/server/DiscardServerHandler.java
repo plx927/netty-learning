@@ -10,17 +10,26 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by panlingxiao on 2016/10/29.
  * ChannelHandler用于处理由Netty所产生的IO事件
+ * 在默认情况下,如果使用
+ * <code>
+ *     pipeline.addLast(new DiscardServerHandler());
+ * </code>
+ * 的方式，对于不同的连接都会创建一个新的ChannelHandler。
  */
 public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscardServerHandler.class);
 
+    public DiscardServerHandler(){
+        LOGGER.info("DiscardServerHandler Created:{}",this);
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         // Discard the received data silently.
-       // ((ByteBuf) msg).release(); // (3)
-
+       // ((ByteBuf) msg).release(        ); // (3)
+        LOGGER.info("ctx:{},channel:{}",ctx,ctx.channel());
         ByteBuf buf = (ByteBuf) msg;
         try{
             //判断Buf是否可读,如果可读则依次读取
