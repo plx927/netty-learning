@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandler;
 import io.netty.util.ReferenceCountUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
@@ -14,45 +16,46 @@ import java.nio.charset.Charset;
  */
 public class InboundHandlerB implements ChannelInboundHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(InboundHandlerB.class);
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass().getName()+" channelRegistered");
+        log.info("channelRegistered");
         ctx.fireChannelRegistered();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass().getName()+" channelActive");
+        log.info("channelActive");
         ctx.fireChannelActive();
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String str = (String) msg;
-        System.out.println(getClass()+" channelRead,msg:"+str);
+        log.info("ChannelRead,msg:{}",str);
         ctx.fireChannelRead(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass()+" channelReadComplete");
+        log.info("channelReadComplete");
+        ctx.fireChannelReadComplete();
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        System.out.println(getClass()+" userEventTriggered");
+        log.info("userEventTriggered");
     }
 
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass()+" channelWritabilityChanged");
+        log.info("channelWritabilityChanged");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
-        System.out.println(getClass()+"exceptionCaught");
+        log.error("exceptionCaught",cause);
         ctx.fireExceptionCaught(cause);
     }
 

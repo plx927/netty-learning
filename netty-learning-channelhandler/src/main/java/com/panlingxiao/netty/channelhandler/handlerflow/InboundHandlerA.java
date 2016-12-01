@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandler;
 import io.netty.util.ReferenceCountUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
@@ -15,16 +17,18 @@ import java.nio.charset.Charset;
 public class InboundHandlerA implements ChannelInboundHandler {
 
 
+    private static final Logger log = LoggerFactory.getLogger(InboundHandlerA.class);
+
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass().getName()+" channelRegistered");
+        log.info("channelRegistered");
         ctx.fireChannelRegistered();
     }
 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass().getName()+" channelActive");
+        log.info("channelActive");
         ctx.fireChannelActive();
     }
 
@@ -33,7 +37,7 @@ public class InboundHandlerA implements ChannelInboundHandler {
         try {
             ByteBuf buf = (ByteBuf) msg;
             String str = buf.toString(Charset.forName("UTF-8"));
-            System.out.println(getClass()+",channelRead,msg:"+str +"，refCnt:"+buf.refCnt());
+            log.info("ChannelRead,msg:{},refCnt:{}",str,buf.refCnt());
             ctx.fireChannelRead(str);
         } finally {
             ReferenceCountUtil.release(msg);
@@ -42,24 +46,23 @@ public class InboundHandlerA implements ChannelInboundHandler {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass()+" channelReadComplete");
+        log.info("channelReadComplete");
         ctx.fireChannelReadComplete();
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        System.out.println(getClass()+" userEventTriggered");
+        log.info("userEventTriggered");
     }
 
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass()+" channelWritabilityChanged");
+        log.info("channelWritabilityChanged");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
-        System.out.println(getClass()+"exceptionCaught");
+        log.error("exceptionCaught",cause);
         ctx.fireExceptionCaught(cause);
     }
 
