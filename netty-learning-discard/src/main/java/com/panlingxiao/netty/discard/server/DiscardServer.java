@@ -22,8 +22,8 @@ public class DiscardServer {
     }
 
     public void run() throws Exception {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1); // (1)
+        EventLoopGroup workerGroup = new NioEventLoopGroup(1);
 
         try {
             ServerBootstrap b = new ServerBootstrap(); // (2)
