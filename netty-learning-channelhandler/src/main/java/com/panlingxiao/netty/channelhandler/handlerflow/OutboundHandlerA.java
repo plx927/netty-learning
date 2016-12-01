@@ -5,6 +5,8 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandler;
 import io.netty.channel.ChannelPromise;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
 
@@ -15,14 +17,16 @@ import java.net.SocketAddress;
  */
 public class OutboundHandlerA implements ChannelOutboundHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(OutboundHandlerA.class);
+
     @Override
     public void bind(ChannelHandlerContext ctx, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        System.out.println(getClass().getName() + "bind");
+        log.info("bind,socketAddress:{}",localAddress);
     }
 
     @Override
     public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        System.out.println(getClass().getName() + " connect,remoteAddress:" + remoteAddress);
+        log.info("connect,remoteAddress:{}",remoteAddress);
     }
 
     @Override
@@ -42,13 +46,13 @@ public class OutboundHandlerA implements ChannelOutboundHandler {
 
     @Override
     public void read(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(getClass() + " read");
+        log.info("read");
         ctx.read();
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        System.out.println(getClass() + " write,msg:" + msg);
+        log.info("writeMsg,msg is :{}",msg);
         String str = (String) msg;
         ByteBuf buffer = Unpooled.buffer();
         buffer.writeBytes(str.getBytes());
@@ -57,6 +61,7 @@ public class OutboundHandlerA implements ChannelOutboundHandler {
 
     @Override
     public void flush(ChannelHandlerContext ctx) throws Exception {
+        log.info("flush");
         ctx.flush();
     }
 

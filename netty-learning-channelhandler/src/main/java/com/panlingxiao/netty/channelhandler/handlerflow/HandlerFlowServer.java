@@ -12,9 +12,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 /**
  * @Author: panlingxiao
  * @Date: 2016/11/27 0027
- * @Description:
+ * @Description: 测试一个IO事件在ChannelPipeline中的执行流程
  */
-public class HandlerServer {
+public class HandlerFlowServer {
 
     public static void main(String[] args) throws InterruptedException {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -23,7 +23,7 @@ public class HandlerServer {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.channel(NioServerSocketChannel.class);
-            serverBootstrap.group(bossGroup,workerGroup);
+            serverBootstrap.group(bossGroup, workerGroup);
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
@@ -32,7 +32,7 @@ public class HandlerServer {
                     pipeline.addLast(new InboundHandlerB());
                     pipeline.addLast(new OutboundHandlerA());
                     pipeline.addLast(new OutboundHandlerB());
-                     pipeline.addLast(new InboundOutboundHandlerX());
+                    pipeline.addLast(new InboundOutboundHandlerX());
                 }
             });
             ChannelFuture channelFuture = serverBootstrap.bind(8080).sync();
