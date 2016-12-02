@@ -17,18 +17,14 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf buf = (ByteBuf) msg;
-        try {
-            while (buf.isReadable()) {
-                System.out.println((char) buf.readByte());
-            }
-            //将ByteBuf的读指针重置
-            buf.resetReaderIndex();
-            ctx.writeAndFlush(buf);
-        } finally {
-            if(buf.refCnt() > 0){
-                ReferenceCountUtil.release(buf);
-            }
+        while (buf.isReadable()) {
+            System.out.print((char) buf.readByte());
         }
+        System.out.println("\n");
+        //将ByteBuf的读指针重置
+        buf.resetReaderIndex();
+        //Netty底层将ByteBuf释放的时候会自动将Buf进行释放
+        ctx.writeAndFlush(buf);
     }
 
     @Override
