@@ -32,7 +32,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
         LOGGER.info("ctx:{},channel:{}",ctx,ctx.channel());
         ByteBuf buf = (ByteBuf) msg;
         try{
-            //判断Buf是否可读,如果可读则依次读取
+            //判断Buf是否可读,如果可读则依次读取接受到的每一个字节
             while (buf.isReadable()){
                 System.out.print((char) buf.readByte());
             }
