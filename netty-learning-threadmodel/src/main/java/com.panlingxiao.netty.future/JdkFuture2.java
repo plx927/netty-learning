@@ -16,6 +16,7 @@ public class JdkFuture2 {
             @Override
             public String call() throws Exception {
                 TimeUnit.SECONDS.sleep(2);
+                System.out.println("执行任务");
                 return null;
             }
         });

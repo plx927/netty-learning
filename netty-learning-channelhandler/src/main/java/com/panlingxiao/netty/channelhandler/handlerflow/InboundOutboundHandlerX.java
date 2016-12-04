@@ -92,7 +92,7 @@ public class InboundOutboundHandlerX implements ChannelInboundHandler,ChannelOut
     @Override
     public void read(ChannelHandlerContext ctx) throws Exception {
         log.info("read");
-        ctx.read();
+        //ctx.read();
     }
 
     @Override
