@@ -14,6 +14,7 @@ import io.netty.handler.logging.LoggingHandler;
 
 /**
  * Created by panlingxiao on 2016/11/5.
+ * 使用自己给定的线程池完成业务处理
  */
 public class AsyncTaskServer {
 

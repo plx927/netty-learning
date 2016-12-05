@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 
 /**
  * Created by panlingxiao on 2016/11/5.
+ * Bad Code
  */
 public class EventLoopTaskServerHandler extends SimpleChannelInboundHandler<String> {
 
@@ -22,7 +23,8 @@ public class EventLoopTaskServerHandler extends SimpleChannelInboundHandler<Stri
         final EventExecutor executor = ctx.executor();
         System.out.println(executor);
         LOGGER.info("服务器接受到数据:{}", msg);
-        //将业务处理放入到EventLoop中来执行
+        //将业务处理放入到EventLoop中来执行,这种做法是错误的
+        //因为这样等同于将业务操作重新投递到IO线程中来进行处理
         Future<Void> future = executor.submit(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
