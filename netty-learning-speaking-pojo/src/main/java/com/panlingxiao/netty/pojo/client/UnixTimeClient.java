@@ -27,7 +27,8 @@ public class UnixTimeClient {
                         }
                     }).option(ChannelOption.SO_KEEPALIVE, true); // (4)
             ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
-            channelFuture.channel().closeFuture().sync();
+            System.out.println(channelFuture.isSuccess());
+            //channelFuture.channel().closeFuture().sync();
         } finally {
                 workerGroup.shutdownGracefully();
         }

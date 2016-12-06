@@ -3,6 +3,8 @@ package com.panlingxiao.netty.channelhandler.ctx;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.nio.charset.Charset;
 
@@ -22,6 +24,18 @@ public class CtxHandler extends ChannelInboundHandlerAdapter {
          * 并且以日志的方式进行记录。
          */
         //ctx.fireChannelRead(buf);
-        ctx.writeAndFlush(buf);
+        //ctx.writeAndFlush(buf);
+        ctx.writeAndFlush("abc").addListener(new GenericFutureListener<Future<? super Void>>() {
+            @Override
+            public void operationComplete(Future<? super Void> future) throws Exception {
+                System.out.println(future.cause());
+            }
+        });
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println(cause);
+        ctx.close();
     }
 }
