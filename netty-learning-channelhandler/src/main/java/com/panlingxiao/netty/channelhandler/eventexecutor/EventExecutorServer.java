@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * Created by panlingxiao on 2016/12/5.
  */
 public class EventExecutorServer {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
 
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -34,7 +34,7 @@ public class EventExecutorServer {
                     ChannelPipeline pipeline = ch.pipeline();
                     pipeline.addLast(executorGroup,
                             new StringEncoder(),
-                            new StringDecoder(),new MyHandler());
+                            new StringDecoder(), new MyHandler());
                 }
             });
             ChannelFuture channelFuture = serverBootstrap.bind(8080).sync();
@@ -46,9 +46,19 @@ public class EventExecutorServer {
         }
     }
 
+
+    /**
+     * 因为加了在添加ChannelPipeline的时候，指定了特定的EventExecutorGroup,因此
+     */
     static class MyHandler extends SimpleChannelInboundHandler<String> {
 
         static final Logger log = LoggerFactory.getLogger(MyHandler.class);
+
+        @Override
+        public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+            log.debug("channelRegistered,channel'eventloop is :{},ctx's eventloop is {}:",
+                    ctx.channel().eventLoop(), ctx.executor());
+        }
 
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
