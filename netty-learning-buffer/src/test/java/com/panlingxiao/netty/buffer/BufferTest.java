@@ -37,4 +37,12 @@ public class BufferTest {
     public void testSlice(){
 
     }
+
+
+    @Test
+    public void testCapacity(){
+        ByteBuf buffer = Unpooled.buffer();
+        System.out.println(buffer.capacity());
+        System.out.println(buffer.maxCapacity());
+    }
 }
