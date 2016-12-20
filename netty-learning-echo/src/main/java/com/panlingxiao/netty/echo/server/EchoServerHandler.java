@@ -1,9 +1,15 @@
 package com.panlingxiao.netty.echo.server;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.charset.Charset;
 
 /**
  * Created by panlingxiao on 2016/10/29.
@@ -13,6 +19,8 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public EchoServerHandler() {
         System.out.println("EchoServerHandler Created");
     }
+
+    private static final Logger log = LoggerFactory.getLogger(EchoServerHandler.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
