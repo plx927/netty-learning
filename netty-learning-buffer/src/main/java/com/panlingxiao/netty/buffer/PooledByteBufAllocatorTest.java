@@ -78,5 +78,22 @@ public class PooledByteBufAllocatorTest {
         //PoolArean底层创建PoolSubpagePools的大小
         int numTinySubpagePools = 512 >>>4;
         log.info("numTinySubpagePools:{}",numTinySubpagePools);
+
+        log.info("log2:{}",log2(pageSize));
+    }
+
+
+    /**
+     * 计算一个以2为底的log值
+     * @param val
+     * @return
+     */
+    private static int log2(int val) {
+        int res = 0;
+        while (val > 1) {
+            val >>= 1;
+            res++;
+        }
+        return res;
     }
 }
