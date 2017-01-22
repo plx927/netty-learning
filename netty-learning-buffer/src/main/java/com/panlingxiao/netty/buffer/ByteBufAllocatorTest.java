@@ -20,5 +20,11 @@ public class ByteBufAllocatorTest {
         ByteBuf buffer2 = unpooledByteBufAllocator.buffer(1024);
         System.out.println(buffer2.refCnt());
 
+        System.out.println("-----------------------");
+        buffer.writeInt(999);
+        System.out.println(buffer.readInt());
+
+
+
     }
 }

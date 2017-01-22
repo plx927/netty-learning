@@ -79,12 +79,13 @@ public class PooledByteBufAllocatorTest {
         int numTinySubpagePools = 512 >>>4;
         log.info("numTinySubpagePools:{}",numTinySubpagePools);
 
+
         log.info("log2:{}",log2(pageSize));
     }
 
 
     /**
-     * 计算一个以2为底的log值
+     * 计算一个以2为敌的
      * @param val
      * @return
      */
