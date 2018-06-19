@@ -28,12 +28,15 @@ public class NettyRemotingServer {
 
     private Channel channel;
 
-    public NettyRemotingServer(int port) {
+    private ChannelHandler channelHandler;
+
+    public NettyRemotingServer(int port,ChannelHandler channelHandler) {
         this.port = port;
         this.serverBootstrap = new ServerBootstrap();
         boss = new NioEventLoopGroup(1);
         worker = new NioEventLoopGroup();
         defaultEventExecutorGroup = new DefaultEventLoopGroup();
+        this.channelHandler = channelHandler;
     }
 
     public void start() throws Exception {
@@ -51,7 +54,7 @@ public class NettyRemotingServer {
                                 new LengthFieldBasedFrameDecoder(1024, 0, 4, -4, 0))
                                 .addLast(new MsgDecoder())
                                 .addLast(new MsgEncoder())
-                                .addLast(new ServerHandler());
+                                .addLast(channelHandler);
                     }
                 });
 
@@ -68,9 +71,5 @@ public class NettyRemotingServer {
     }
 
 
-    public static void main(String[] args) throws Exception {
-        NettyRemotingServer nettyRemotingServer = new NettyRemotingServer(8080);
-        nettyRemotingServer.start();
 
-    }
 }
