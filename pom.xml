@@ -35,7 +35,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.0.36.Final</version>
+            <version>4.1.16.Final</version>
         </dependency>
 
         <dependency>
@@ -44,11 +44,6 @@
             <version>1.7.16</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.13</version>
-        </dependency>
 
         <dependency>
             <groupId>org.jboss.marshalling</groupId>

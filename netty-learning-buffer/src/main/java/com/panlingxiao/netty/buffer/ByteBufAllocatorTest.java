@@ -25,6 +25,8 @@ public class ByteBufAllocatorTest {
         System.out.println(buffer.readInt());
 
 
+        System.out.println(Runtime.getRuntime().availableProcessors());
+
 
     }
 }
